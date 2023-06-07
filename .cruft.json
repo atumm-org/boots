@@ -1,0 +1,13 @@
+{
+  "template": "git@github.com:morning-sunn/cookiecutter-docker-python-pdm.git",
+  "commit": "c404ad61ed6a528f80db295927216768c4995e65",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "github_username": "atumm-org",
+      "project_name": "boots",
+      "_template": "git@github.com:morning-sunn/cookiecutter-docker-python-pdm.git"
+    }
+  },
+  "directory": null
+}
