@@ -24,6 +24,7 @@ dependencies = [
     "pathspec>=0.9.0",
     "platformdirs>=2",
     "tomli>=1.1.0; python_version < \"3.11\"",
+    "typing-extensions>=3.10.0.0; python_version < \"3.10\"",
 ]
 
 [[package]]
@@ -193,7 +194,7 @@ summary = "Backported and Experimental Type Hints for Python 3.7+"
 lock_version = "4.2"
 cross_platform = true
 groups = ["default", "dev"]
-content_hash = "sha256:28a8503145d6beb39f19c91319479bae7f413ff45c749b7e94e0b02ff1490dbe"
+content_hash = "sha256:ebec0fcd71a5335fd6a3891369a67c08c754d86ace465b7f03c0b72407e799bd"
 
 [metadata.files]
 "anyio 3.7.0" = [
