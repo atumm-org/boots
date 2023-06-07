@@ -1,1 +1,1 @@
-"""Unit test package for boots."""
+"""Unit test package for buti."""

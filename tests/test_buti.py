@@ -3,23 +3,23 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from boots import BootableComponent, BootImage, BootLoader, ComponentOptions
+from buti import BootableComponent, BootLoader, ButiKeys, ButiStore
 
 pytestmark = pytest.mark.anyio
 
 
-class DemoOptions(ComponentOptions):
+class DemoOptions(ButiKeys):
     ANY_OPTION = "ANY_OPTION"
 
 
 class DemoComponent(BootableComponent):
-    async def boot(self, boot_image: BootImage):
+    async def boot(self, boot_image: ButiStore):
         pass
 
 
 class TestBootImage:
     def test_set_and_get(self):
-        boot_image = BootImage()
+        boot_image = ButiStore()
         boot_image.set(DemoOptions.ANY_OPTION, "any_value")
         assert boot_image.get(DemoOptions.ANY_OPTION) == "any_value"
 
@@ -28,7 +28,7 @@ class TestBootableComponent(IsolatedAsyncioTestCase):
     async def test_boot(self):
         try:
             bootable_component = AsyncMock()
-            await bootable_component.boot(BootImage())
+            await bootable_component.boot(ButiStore())
         except NotImplementedError:
             pytest.fail("NotImplementedError was raised")
 
@@ -53,7 +53,7 @@ class TestBootLoader:
 
     async def test_boot_calls_boot_and_post_boot_on_components(self):
         # Arrange
-        boot_image = BootImage()
+        boot_image = ButiStore()
         boot_loader = BootLoader(boot_image)
 
         # Create mock components

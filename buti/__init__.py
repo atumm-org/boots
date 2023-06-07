@@ -1,7 +1,7 @@
-"""Top-level package for Boots."""
+"""Top-level package for Buti."""
 
 __author__ = """Sunn O"""
 __email__ = "sunn@atumm.org"
 __version__ = "0.1.0"
 
-from .boots import *
+from .core import *

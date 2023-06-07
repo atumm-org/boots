@@ -1,7 +1,7 @@
 
 format:
 	@sh -c " \
-		pdm run ssort boots/**; \
+		pdm run ssort buti/**; \
 		pdm run ssort tests/**; \
 		pdm run isort .; \
 		pdm run black . \
@@ -9,11 +9,11 @@ format:
 
 test:
 	@sh -c " \
-		pdm run pytest --cov=boots tests; \
+		pdm run pytest --cov=buti tests; \
 		pdm run mypy; \
-		pdm run ssort --check boots/**; \
+		pdm run ssort --check buti/**; \
 		pdm run ssort --check tests/**; \
-		pdm run isort --check-only boots/**; \
+		pdm run isort --check-only buti/**; \
 		pdm run isort --check-only .; \
 		pdm run black --check ."
 
