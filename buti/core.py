@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from collections import UserDict
 from enum import Enum
-from typing import Any, List, Optional
+from typing import Any, Dict, List, Optional
 
 
 class ButiKeys(Enum):
@@ -51,11 +51,11 @@ class BootLoader:
     """
     The BootLoader is responsible for managing the boot process of the application.
 
-    It maintains a list of BootableComponent instances, each representing a part of the application that needs to be
+    It maintains a dictionary of BootableComponent instances, each representing a part of the application that needs to be
      initialized during the booting process. The BootLoader ensures that each component's boot method is called,
      in the order the components were added.
 
-    The post_boot method is called after all the components have been booted. To do any exta work needed after boot
+    The post_boot method is called after all the components have been booted. To do any extra work needed after boot
 
     The BootLoader uses a ButiStore instance as a shared context for the components during the booting process.
     Components can store and retrieve data in the ButiStore, allowing them to share data and resources.
@@ -63,18 +63,25 @@ class BootLoader:
     see: examples/
     """
 
-    def __init__(self, boot_image: Optional[ButiStore] = None):
-        self.boot_image = boot_image if boot_image is not None else ButiStore()
-        self._components: List[BootableComponent] = []
+    def __init__(self, buti_store: Optional[ButiStore] = None) -> None:
+        self.buti_store = buti_store if buti_store is not None else ButiStore()
+        self._components: Dict[str, BootableComponent] = {}
 
     def add_component(self, component: BootableComponent) -> None:
-        self._components.append(component)
+        self._components[component.__class__.__name__] = component
+
+    def add_components(self, components: List[BootableComponent]) -> None:
+        for component in components:
+            self.add_component(component)
+
+    def has_component(self, component: BootableComponent) -> bool:
+        return component.__class__.__name__ in self._components
 
     async def boot(self) -> ButiStore:
-        for component in self._components:
-            await component.boot(self.boot_image)
+        for component in self._components.values():
+            await component.boot(self.buti_store)
 
-        for component in self._components:
-            await component.post_boot(self.boot_image)
+        for component in self._components.values():
+            await component.post_boot(self.buti_store)
 
-        return self.boot_image
+        return self.buti_store

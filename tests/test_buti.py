@@ -8,20 +8,23 @@ from buti import BootableComponent, BootLoader, ButiKeys, ButiStore
 pytestmark = pytest.mark.anyio
 
 
-class DemoOptions(ButiKeys):
-    ANY_OPTION = "ANY_OPTION"
+class MockComponent1(AsyncMock):
+    pass
 
 
-class DemoComponent(BootableComponent):
-    async def boot(self, boot_image: ButiStore):
-        pass
+class MockComponent2(AsyncMock):
+    pass
 
 
-class TestBootImage:
+class DemoKeys(ButiKeys):
+    any_object_key: str = "any_object_key"
+
+
+class TestButiStore:
     def test_set_and_get(self):
-        boot_image = ButiStore()
-        boot_image.set(DemoOptions.ANY_OPTION, "any_value")
-        assert boot_image.get(DemoOptions.ANY_OPTION) == "any_value"
+        buti_store = ButiStore()
+        buti_store.set(DemoKeys.any_object_key, "any_value")
+        assert buti_store.get(DemoKeys.any_object_key) == "any_value"
 
 
 class TestBootableComponent(IsolatedAsyncioTestCase):
@@ -36,40 +39,41 @@ class TestBootableComponent(IsolatedAsyncioTestCase):
         pass
 
 
-class TestBootLoader:
-    def setup_method(self):
+class TestBootLoader(IsolatedAsyncioTestCase):
+    def setUp(self):
         self.boot_loader = BootLoader()
 
     def test_add_component(self):
-        component = AsyncMock(spec=BootableComponent)
+        component = MockComponent1()
         self.boot_loader.add_component(component)
-        assert component in self.boot_loader._components
+        self.assertTrue(self.boot_loader.has_component(component))
+
+    def test_add_components(self):
+        components = [MockComponent1(), MockComponent2()]
+        self.boot_loader.add_components(components)
+        self.assertTrue(self.boot_loader.has_component(components[0]))
+        self.assertTrue(self.boot_loader.has_component(components[1]))
 
     async def test_boot(self):
         component = AsyncMock(spec=BootableComponent)
+        component.boot = AsyncMock()
         self.boot_loader.add_component(component)
         await self.boot_loader.boot()
         component.boot.assert_called_once()
 
     async def test_boot_calls_boot_and_post_boot_on_components(self):
-        # Arrange
-        boot_image = ButiStore()
-        boot_loader = BootLoader(boot_image)
+        buti_store = ButiStore()
+        boot_loader = BootLoader(buti_store)
 
-        # Create mock components
-        component1 = AsyncMock(BootableComponent)
-        component2 = AsyncMock(BootableComponent)
-        component1.post_boot = AsyncMock()
-        component2.post_boot = AsyncMock()
+        component1 = MockComponent1()
+        component2 = MockComponent2()
 
         boot_loader.add_component(component1)
         boot_loader.add_component(component2)
 
-        # Act
         await boot_loader.boot()
 
-        # Assert
-        component1.boot.assert_called_once_with(boot_image)
-        component2.boot.assert_called_once_with(boot_image)
+        component1.boot.assert_called_once_with(buti_store)
+        component2.boot.assert_called_once_with(buti_store)
 
-        component1.post_boot.assert_called_once_with(boot_image)
+        component1.post_boot.assert_called_once_with(buti_store)
