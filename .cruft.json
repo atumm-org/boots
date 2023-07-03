@@ -5,7 +5,7 @@
   "context": {
     "cookiecutter": {
       "github_username": "atumm-org",
-      "project_name": "boots",
+      "project_name": "buti",
       "_template": "git@github.com:morning-sunn/cookiecutter-docker-python-pdm.git"
     }
   },

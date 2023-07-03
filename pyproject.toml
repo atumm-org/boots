@@ -1,9 +1,9 @@
 [project]
-name = "boots"
+name = "buti"
 version = "0.1.0"
 description = ""
 authors = [
-    {name = "Sunn", email = "sunn@atumm.io"},
+    {name = "Sunn", email = "sunn@atumm.org"},
 ]
 dependencies = [
 ]
@@ -11,7 +11,7 @@ requires-python = ">=3.9"
 license = {text = "MIT"}
 
 [project.urls]
-homepage = "https://github.com/atumm-org/boots"
+homepage = "https://github.com/atumm-org/buti"
 
 [project.optional-dependencies]
 dev = [
@@ -30,7 +30,7 @@ build-backend = "pdm.pep517.api"
 
 
 [tool.mypy]
-files = "boots/**/*.py"
+files = "buti/**/*.py"
 exclude = "__pypackages__/"
 ignore_missing_imports = true
 disallow_untyped_calls = true
@@ -41,7 +41,7 @@ warn_unused_ignores = true
 warn_unreachable = true
 
 [tool.coverage.run]
-data_file = "/tmp/.boots.coverage"
+data_file = "/tmp/.buti.coverage"
 omit = ["tests/*"]
 
 [tool.coverage.report]
