@@ -1,10 +1,7 @@
 from fastapi import APIRouter, FastAPI
 
-from buti import BootableComponent, ButiKeys, ButiStore
-
-
-class FastAPIButiKeys(ButiKeys):
-    APP = "APP"
+from buti import BootableComponent, ButiStore
+from ids import ObjectIds
 
 
 class FastAPIComponent(BootableComponent):
@@ -12,13 +9,13 @@ class FastAPIComponent(BootableComponent):
         app = FastAPI()
 
         # Store the FastAPI app in the ButiStore
-        boot_image.set(FastAPIButiKeys.APP, app)
+        boot_image.set(ObjectIds.app, app)
 
 
 class RouterComponent(BootableComponent):
     async def boot(self, boot_image: ButiStore):
         # Retrieve the FastAPI app from the ButiStore
-        app = boot_image.get(FastAPIButiKeys.APP)
+        app = boot_image.get(ObjectIds.app)
 
         # Initialize an APIRouter
         router = APIRouter()
