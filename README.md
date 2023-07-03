@@ -8,3 +8,7 @@ We can create "bootable" components, each representing a distinct part of your a
 use a boot-loader to coordinate their initialization. This method encourages modularity, reusability, and separation of concerns, making your application more straightforward to develop, test, and maintain. 
 
 
+Overview
+========
+
+![Buti Overview](./docs/images/buti-overview.png)
