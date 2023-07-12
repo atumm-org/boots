@@ -1,12 +1,11 @@
 [project]
 name = "buti"
-version = "0.1.0"
+version = "1.0.0"
 description = ""
 authors = [
-    {name = "Sunn", email = "sunn@atumm.org"},
+    {name = "Omar", email = "omar@atumm.org"},
 ]
-dependencies = [
-]
+dependencies = []
 requires-python = ">=3.9"
 license = {text = "MIT"}
 
@@ -24,6 +23,7 @@ dev = [
     "ruff==0.0.270",
     "pytest-anyio>=0.0.0",
 ]
+
 [build-system]
 requires = ["pdm-pep517"]
 build-backend = "pdm.pep517.api"
