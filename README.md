@@ -19,7 +19,7 @@ use a boot-loader to coordinate their initialization. This method encourages mod
 
 ***Note:*** in a more complicated scenario, you might want to execute a certain procedure after the application boots, in that case BootableComponent has a *post_boot* method, which will execute after the whole application boots.
 
-## Usage:
+## Usage
 
 In this example, we are assuming that we have 2 components:
 - config: the application configuration object
