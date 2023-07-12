@@ -1,6 +1,6 @@
 
-Buti
-==========
+# Buti
+
 
 
 Buti is a Python library that is responsible for bootstrapping applications. It offers a set of tools and abstractions that help developers manage the initialization and configuration of different application components in a systematic way.
@@ -8,16 +8,19 @@ Buti is a Python library that is responsible for bootstrapping applications. It 
 We can create "bootable" components, each representing a distinct part of your application's setup process. Then, we can
 use a boot-loader to coordinate their initialization. This method encourages modularity, reusability, and separation of concerns, making your application more straightforward to develop, test, and maintain. 
 
-Overview
-========
+
+[Example With FastAPI and Beanie ODM](./examples/fastapi_beanie/)
+
+## Overview
+
 
 ![Buti Overview](./docs/images/buti-overview.png)
 
 
-**Note:** in a more complicated scenario, you might want to execute a certain procedure after the application boots, in that case BootableComponent has a *post_boot* method, which will execute after the whole application boots.
+***Note:*** in a more complicated scenario, you might want to execute a certain procedure after the application boots, in that case BootableComponent has a *post_boot* method, which will execute after the whole application boots.
 
-Usage:
-======
+## Usage:
+
 In this example, we are assuming that we have 2 components:
 - config: the application configuration object
 - beanie: the database object from Beanie ODM
@@ -65,7 +68,7 @@ class BeanieComponent(BootableComponent):
         object_store.set(ObjectIds.beanie, beanie_db)
 ```
 
-Now we are all set, to work with the bootloader.
+Now we are all set, let's boot the application!
 
 ```python
 import asyncio
