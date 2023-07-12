@@ -7,7 +7,6 @@ from components.fastapi import FastAPIComponent, RouterComponent
 
 from buti import BootableComponent, BootLoader
 
-
 components: List[BootableComponent] = [
     ConfigComponent(),
     BeanieComponent(),
@@ -18,13 +17,12 @@ components: List[BootableComponent] = [
 
 async def main():
     # here we can optionally pass a ButiStore
-    boot_loader = BootLoader()
+    bootloader = BootLoader()
 
-    for component in components:
-        boot_loader.add_component(component)
+    bootloader.add_components(components)
 
     # this returns a generated ButiStore
-    object_store = await boot_loader.boot()
+    object_store = await bootloader.boot()
 
 
 # Run the main function

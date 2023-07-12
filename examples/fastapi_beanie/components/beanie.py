@@ -1,9 +1,9 @@
 from beanie import init_beanie
+from components.config import Config
+from ids import ObjectIds
 from motor.motor_asyncio import AsyncIOMotorClient
 
 from buti import BootableComponent, ButiStore
-from components.config import Config
-from ids import ObjectIds
 
 
 class BeanieComponent(BootableComponent):
