@@ -1,6 +1,10 @@
 help:		   	## Show this help.
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
+setup-dev:		## sets up the dev environment
+	pdm sync -G dev
+	ln -s -f scripts/pre-commit .git/hooks/pre-commit
+
 format:			## format with ssort, isort and black
 	@sh -c " \
 		pdm run ssort buti/**; \
