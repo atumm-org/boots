@@ -8,6 +8,8 @@ Buti is a Python library that is responsible for bootstrapping applications. It 
 We can create "bootable" components, each representing a distinct part of your application's setup process. Then, we can
 use a boot-loader to coordinate their initialization. This method encourages modularity, reusability, and separation of concerns, making your application more straightforward to develop, test, and maintain. 
 
+Fun Fact: Buti means 'boots' in Swahili
+
 
 [Example With FastAPI and Beanie ODM](./examples/fastapi_beanie/)
 
