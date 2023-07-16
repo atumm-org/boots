@@ -77,7 +77,7 @@ from typing import List
 from components.beanie import BeanieComponent
 from components.config import ConfigComponent
 
-from buti import BootableComponent, BootLoader
+from buti import BootableComponent, Bootloader
 
 # make sure, you add the components in the right order, concerning dependencies
 components: List[BootableComponent] = [
@@ -88,7 +88,7 @@ components: List[BootableComponent] = [
 
 async def main():
     # here we can optionally pass a ButiStore
-    bootloader = BootLoader()
+    bootloader = Bootloader()
 
     bootloader.add_components(components)
 
