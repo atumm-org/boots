@@ -13,6 +13,7 @@ Fun Fact: Buti means 'boots' in Swahili
 There are two operation modes, both work the same way, one is synchronous and one is asynchronous. 
 
 Synchronous: (Bootloader, BootableComponent)
+
 Asynchronous: (AsyncBootloader, AsyncBootableComponent)
 
 [Example With FastAPI and Beanie ODM](./examples/fastapi_beanie/)
