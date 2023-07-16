@@ -14,7 +14,7 @@ class BeanieComponent(BootableComponent):
         app: FastAPI = object_store.get(ObjectIds.app)
 
         # Initialize the database connection
-        beanie_client = AsyncIOMotorClient(config.MONGO_URL)
+        beanie_client = AsyncIOMotorClient(config.MONGO_DB_NAME)
 
         @app.on_event("startup")
         async def beanie_startup():

@@ -10,6 +10,10 @@ use a boot-loader to coordinate their initialization. This method encourages mod
 
 Fun Fact: Buti means 'boots' in Swahili
 
+There are two operation modes, both work the same way, one is synchronous and one is asynchronous. 
+
+Synchronous: (Bootloader, BootableComponent)
+Asynchronous: (AsyncBootloader, AsyncBootableComponent)
 
 [Example With FastAPI and Beanie ODM](./examples/fastapi_beanie/)
 
@@ -43,31 +47,32 @@ from pydantic import BaseSettings
 from beanie import init_beanie
 from motor.motor_asyncio import AsyncIOMotorClient
 
-from buti import BootableComponent, ButiStore
+from buti import AsyncBootableComponent, ButiStore
 from components.config import Config
 
 class Config(BaseSettings):
-    APP_ENV: str = "development"
+    STAGE: Literal["dev", "test", "prod"] = "dev"
     DEBUG: bool = False
-    APP_HOST: str
-    APP_PORT: int
+    MONGO_URL: str
+    MONGO_DB_NAME: str
 
-class ConfigComponent(BootableComponent):
+class ConfigComponent(AsyncBootableComponent):
     async def boot(self, object_store: ButiStore):
-        config: Config = Config()
+        config: Config = Config(_env_file=".env", _env_file_encoding="utf-8")
         object_store.set(ObjectIds.config, config)
 
-class BeanieComponent(BootableComponent):
+class BeanieComponent(AsyncBootableComponent):
     async def boot(self, object_store: ButiStore):
-        # get the configuration manager from the store
+        # get the configuration manager and FastAPI from the store
         config: Config = object_store.get(ObjectIds.config)
 
         # Initialize the database connection
-        beanie_db = AsyncIOMotorClient(config.MONGO_URL).db
-        await init_beanie(db=beanie_db, document_models=[])
+        beanie_client = AsyncIOMotorClient(config.MONGO_URL)
+
+        await init_beanie(db=beanie_client[config.MONGO_DB_NAME], document_models=[])
 
         # Store the database connection in the ButiStore
-        object_store.set(ObjectIds.beanie, beanie_db)
+        object_store.set(ObjectIds.beanie, beanie_client)
 ```
 
 Now we are all set, let's boot the application!
@@ -79,10 +84,10 @@ from typing import List
 from components.beanie import BeanieComponent
 from components.config import ConfigComponent
 
-from buti import BootableComponent, BootLoader
+from buti import AsyncBootableComponent, BootLoader
 
 # make sure, you add the components in the right order, concerning dependencies
-components: List[BootableComponent] = [
+components: List[AsyncBootableComponent] = [
     ConfigComponent(),
     BeanieComponent(),
 ]
@@ -90,7 +95,7 @@ components: List[BootableComponent] = [
 
 async def main():
     # here we can optionally pass a ButiStore
-    bootloader = BootLoader()
+    bootloader = AsyncBootloader()
 
     bootloader.add_components(components)
 
