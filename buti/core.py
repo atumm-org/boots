@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from collections import UserDict
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, overload
 
 
 class ButiKeys(Enum):
@@ -34,22 +34,22 @@ class ButiStore(UserDict):
 
 class BootableComponent(ABC):
     """
-    An application component, that is bootable (can be Beanie ODM, DependencyInjector, WebFramework... etc)
+    An application component, that is bootable (can be an ORM/ODM, DependencyInjector, WebFramework... etc)
 
     see: examples/
     """
 
     @abstractmethod
-    async def boot(self, boot_image: ButiStore) -> None:
+    def boot(self, boot_image: ButiStore) -> None:
         raise NotImplementedError("Component not implemented")
 
-    async def post_boot(self, boot_image: ButiStore) -> None:
+    def post_boot(self, boot_image: ButiStore) -> None:
         pass
 
 
-class BootLoader:
+class Bootloader:
     """
-    The BootLoader is responsible for managing the boot process of the application.
+    The Bootloader is responsible for managing the boot process of the application.
 
     It maintains a dictionary of BootableComponent instances, each representing a part of the application that needs to be
      initialized during the booting process. The BootLoader ensures that each component's boot method is called,
@@ -75,6 +75,48 @@ class BootLoader:
             self.add_component(component)
 
     def has_component(self, component: BootableComponent) -> bool:
+        return component.__class__.__name__ in self._components
+
+    def boot(self) -> ButiStore:
+        for component in self._components.values():
+            component.boot(self.buti_store)
+
+        for component in self._components.values():
+            component.post_boot(self.buti_store)
+
+        return self.buti_store
+
+
+class AsyncBootableComponent(ABC):
+    """
+    same as BootableComponent, see above
+    """
+
+    @abstractmethod
+    async def boot(self, boot_image: ButiStore) -> None:
+        raise NotImplementedError("Component not implemented")
+
+    async def post_boot(self, boot_image: ButiStore) -> None:
+        pass
+
+
+class AsyncBootloader:
+    """
+    Same as Bootloader, see above
+    """
+
+    def __init__(self, buti_store: Optional[ButiStore] = None) -> None:
+        self.buti_store = buti_store if buti_store is not None else ButiStore()
+        self._components: Dict[str, AsyncBootableComponent] = {}
+
+    def add_component(self, component: AsyncBootableComponent) -> None:
+        self._components[component.__class__.__name__] = component
+
+    def add_components(self, components: List[AsyncBootableComponent]) -> None:
+        for component in components:
+            self.add_component(component)
+
+    def has_component(self, component: AsyncBootableComponent) -> bool:
         return component.__class__.__name__ in self._components
 
     async def boot(self) -> ButiStore:

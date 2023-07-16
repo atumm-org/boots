@@ -3,7 +3,8 @@ from unittest.mock import AsyncMock
 
 import pytest
 
-from buti import BootableComponent, BootLoader, ButiKeys, ButiStore
+from buti import ButiKeys, ButiStore
+from buti.core import AsyncBootableComponent, AsyncBootloader
 
 pytestmark = pytest.mark.anyio
 
@@ -20,14 +21,7 @@ class DemoKeys(ButiKeys):
     any_object_key: str = "any_object_key"
 
 
-class TestButiStore:
-    def test_set_and_get(self):
-        buti_store = ButiStore()
-        buti_store.set(DemoKeys.any_object_key, "any_value")
-        assert buti_store.get(DemoKeys.any_object_key) == "any_value"
-
-
-class TestBootableComponent(IsolatedAsyncioTestCase):
+class TestAsyncBootableComponent(IsolatedAsyncioTestCase):
     async def test_boot(self):
         try:
             bootable_component = AsyncMock()
@@ -39,9 +33,9 @@ class TestBootableComponent(IsolatedAsyncioTestCase):
         pass
 
 
-class TestBootLoader(IsolatedAsyncioTestCase):
+class TestAsyncBootloader(IsolatedAsyncioTestCase):
     def setUp(self):
-        self.boot_loader = BootLoader()
+        self.boot_loader = AsyncBootloader()
 
     def test_add_component(self):
         component = MockComponent1()
@@ -55,7 +49,7 @@ class TestBootLoader(IsolatedAsyncioTestCase):
         self.assertTrue(self.boot_loader.has_component(components[1]))
 
     async def test_boot(self):
-        component = AsyncMock(spec=BootableComponent)
+        component = AsyncMock(spec=AsyncBootableComponent)
         component.boot = AsyncMock()
         self.boot_loader.add_component(component)
         await self.boot_loader.boot()
@@ -63,7 +57,7 @@ class TestBootLoader(IsolatedAsyncioTestCase):
 
     async def test_boot_calls_boot_and_post_boot_on_components(self):
         buti_store = ButiStore()
-        boot_loader = BootLoader(buti_store)
+        boot_loader = AsyncBootloader(buti_store)
 
         component1 = MockComponent1()
         component2 = MockComponent2()
