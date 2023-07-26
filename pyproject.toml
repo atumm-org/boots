@@ -10,7 +10,7 @@ requires-python = ">=3.9"
 license = {text = "MIT"}
 
 [project.urls]
-homepage = "https://github.com/atumm-org/buti"
+homepage = "https://github.com/atumm-ra/buti"
 
 [project.optional-dependencies]
 dev = [
