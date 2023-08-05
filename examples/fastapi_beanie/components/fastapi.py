@@ -5,7 +5,7 @@ from buti import BootableComponent, ButiStore
 
 
 class FastAPIComponent(BootableComponent):
-    async def boot(self, object_store: ButiStore):
+    def boot(self, object_store: ButiStore):
         app = FastAPI()
 
         # Store the FastAPI app in the ButiStore
@@ -13,7 +13,7 @@ class FastAPIComponent(BootableComponent):
 
 
 class RouterComponent(BootableComponent):
-    async def boot(self, object_store: ButiStore):
+    def boot(self, object_store: ButiStore):
         # Retrieve the FastAPI app from the ButiStore
         app = object_store.get(ObjectIds.app)
 

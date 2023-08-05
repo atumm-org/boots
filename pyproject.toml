@@ -1,7 +1,7 @@
 [project]
 name = "buti"
 version = "1.0.0"
-description = ""
+description = "A modular app bootloader"
 authors = [
     {name = "Omar", email = "omar@atumm.org"},
 ]
@@ -10,7 +10,7 @@ requires-python = ">=3.9"
 license = {text = "MIT"}
 
 [project.urls]
-homepage = "https://github.com/atumm-org/buti"
+homepage = "https://github.com/atumm-ra/buti"
 
 [project.optional-dependencies]
 dev = [
@@ -25,8 +25,8 @@ dev = [
 ]
 
 [build-system]
-requires = ["pdm-pep517"]
-build-backend = "pdm.pep517.api"
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
 
 
 [tool.mypy]

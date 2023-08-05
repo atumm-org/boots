@@ -5,7 +5,7 @@ from components.beanie import BeanieComponent
 from components.config import ConfigComponent
 from components.fastapi import FastAPIComponent, RouterComponent
 
-from buti import BootableComponent, BootLoader
+from buti import BootableComponent, Bootloader
 
 components: List[BootableComponent] = [
     ConfigComponent(),
@@ -15,15 +15,15 @@ components: List[BootableComponent] = [
 ]
 
 
-async def main():
+def main():
     # here we can optionally pass a ButiStore
-    bootloader = BootLoader()
+    bootloader = Bootloader()
 
     bootloader.add_components(components)
 
     # this returns a generated ButiStore
-    object_store = await bootloader.boot()
+    object_store = bootloader.boot()
 
 
-# Run the main function
-asyncio.run(main())
+if __name__ == "__main__":
+    main()
