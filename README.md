@@ -85,6 +85,7 @@ from typing import List
 from components.beanie import BeanieComponent
 from components.config import ConfigComponent
 
+
 from buti import AsyncBootableComponent, BootLoader
 
 # make sure, you add the components in the right order, concerning dependencies
