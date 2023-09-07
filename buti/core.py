@@ -107,7 +107,7 @@ class AsyncBootloader:
     """
     Same as Bootloader, see above
     """
-    _components: Dict[str, BootableComponent] = {}
+    _components: Dict[str, AsyncBootableComponent] = {}
 
     def __init__(self, components: Optional[List[AsyncBootableComponent]] = None, buti_store: Optional[ButiStore] = None) -> None:
         if components is None:
