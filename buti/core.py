@@ -63,9 +63,17 @@ class Bootloader:
     see: examples/
     """
 
-    def __init__(self, buti_store: Optional[ButiStore] = None) -> None:
+    _components: Dict[str, BootableComponent] = {}
+
+    def __init__(
+        self,
+        components: Optional[List[BootableComponent]] = None,
+        buti_store: Optional[ButiStore] = None,
+    ) -> None:
+        if components is None:
+            components = []
         self.buti_store = buti_store if buti_store is not None else ButiStore()
-        self._components: Dict[str, BootableComponent] = {}
+        self.add_components(components)
 
     def add_component(self, component: BootableComponent) -> None:
         self._components[component.__class__.__name__] = component
@@ -105,9 +113,17 @@ class AsyncBootloader:
     Same as Bootloader, see above
     """
 
-    def __init__(self, buti_store: Optional[ButiStore] = None) -> None:
+    _components: Dict[str, AsyncBootableComponent] = {}
+
+    def __init__(
+        self,
+        components: Optional[List[AsyncBootableComponent]] = None,
+        buti_store: Optional[ButiStore] = None,
+    ) -> None:
+        if components is None:
+            components = []
         self.buti_store = buti_store if buti_store is not None else ButiStore()
-        self._components: Dict[str, AsyncBootableComponent] = {}
+        self.add_components(components)
 
     def add_component(self, component: AsyncBootableComponent) -> None:
         self._components[component.__class__.__name__] = component

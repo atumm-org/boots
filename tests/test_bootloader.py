@@ -27,6 +27,12 @@ class TestBootloader(TestCase):
         self.assertTrue(self.bootloader.has_component(components[0]))
         self.assertTrue(self.bootloader.has_component(components[1]))
 
+    def test_add_components_constructor(self):
+        components = [MockComponent1(), MockComponent2()]
+        bootloader = Bootloader(components)
+        self.assertTrue(bootloader.has_component(components[0]))
+        self.assertTrue(bootloader.has_component(components[1]))
+
     def test_boot(self):
         component = MockComponent1()
         component.boot = Mock()
